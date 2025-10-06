@@ -17,15 +17,13 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
-      setCurrentTime(new Date()); // Update current time every second
     }, 1000);
     return () => clearTimeout(timer);
-  }, [timeLeft, currentTime]); // Added currentTime to dependency array
+  }, [timeLeft]);
 
   const intervals = [
     { key: 'days', label: 'DAYS' },
@@ -36,23 +34,9 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
 
   const formatNumber = (num) => num.toString().padStart(2, '0');
 
-  const targetDateTime = new Date(targetDate);
-  const formattedDate = targetDateTime.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-  const dayOfWeek = targetDateTime
-    .toLocaleDateString('en-US', { weekday: 'long' })
-    .toUpperCase();
-
-  // Calculate rotation for clock hands based on current time
-  const currentHours = currentTime.getHours();
-  const currentMinutes = currentTime.getMinutes();
-  const currentSeconds = currentTime.getSeconds();
-
-  const minuteDegrees = (currentMinutes / 60) * 360 + (currentSeconds / 60) * 6;
-  const hourDegrees = (currentHours / 12) * 360 + (currentMinutes / 60) * 30;
+  const startDate = new Date('2025-10-29T09:00:00');
+  const formattedDate = '29.10.2025';
+  const dayOfWeek = startDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -90,8 +74,30 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
     }
   };
 
+  const hourHandVariants = {
+    animate: {
+      rotate: 360,
+      transition: {
+        duration: 12 * 60 * 60,
+        repeat: Infinity,
+        ease: "linear"
+      }
+    }
+  };
+
+  const minuteHandVariants = {
+    animate: {
+      rotate: 360,
+      transition: {
+        duration: 60 * 60,
+        repeat: Infinity,
+        ease: "linear"
+      }
+    }
+  };
+
   return (
-    <section className="py-16 bg-black text-center relative overflow-hidden font-sans">
+    <section className="py-16 bg-black text-center relative overflow-hidden">
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-neon-cyan/5 to-neon-purple/5"
         variants={glowVariants}
@@ -107,9 +113,8 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
         <motion.h2
           variants={itemVariants}
           className="text-3xl lg:text-4xl font-bold text-white mb-12"
-          style={{ fontFamily: 'Times New Roman' }}
         >
-          The Event Begins In
+          The Event Begins
         </motion.h2>
         <motion.div
           variants={itemVariants}
@@ -118,7 +123,7 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
           <motion.div
             className="flex space-x-4"
           >
-            {intervals.map(({ key, label }) => (
+            {intervals.map(({ key, label }, index) => (
               <motion.div
                 key={key}
                 variants={glowVariants}
@@ -140,7 +145,7 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
             ))}
           </motion.div>
           <motion.div
-            className="flex flex-col items-center space-y-2 lg:border-l lg:border-white/20 lg:pl-16"
+            className="flex flex-col items-center space-y-2"
           >
             <div className="relative">
               <svg className="w-16 h-16" viewBox="0 0 100 100">
@@ -149,27 +154,24 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
                   x1="50"
                   y1="50"
                   x2="50"
-                  y2="25"
+                  y2="20"
                   stroke="rgba(6, 182, 212, 1)"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  style={{ transformOrigin: '50px 50px' }}
-                  animate={{ rotate: hourDegrees }}
-                  transition={{ duration: 1, ease: 'linear' }}
+                  variants={hourHandVariants}
+                  animate="animate"
                 />
                 <motion.line
                   x1="50"
                   y1="50"
-                  x2="50"
-                  y2="15"
+                  x2="80"
+                  y2="50"
                   stroke="rgba(6, 182, 212, 1)"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  style={{ transformOrigin: '50px 50px' }}
-                  animate={{ rotate: minuteDegrees }}
-                  transition={{ duration: 1, ease: 'linear' }}
+                  variants={minuteHandVariants}
+                  animate="animate"
                 />
-                <circle cx="50" cy="50" r="3" fill="rgba(6, 182, 212, 1)" />
               </svg>
             </div>
             <motion.p
