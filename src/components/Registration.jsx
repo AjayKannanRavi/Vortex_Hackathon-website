@@ -40,7 +40,7 @@ export default function Registration() {
             animate="visible"
             className="mt-8 inline-block px-6 py-3 bg-gradient-to-r from-neon-purple to-neon-cyan text-white rounded-full font-bold text-lg shadow-lg shadow-neon-purple/50 neon-text"
           >
-            On-Spot Registration is Available
+            On-Spot Registration is Available with online payment only
           </motion.div>
         </div>
         {/* Fee Box */}
@@ -49,7 +49,7 @@ export default function Registration() {
             <h3 className="text-2xl font-bold neon-text mb-4">Registration Fee</h3>
             <p className="text-5xl font-black neon-cyan mb-2">₹250</p>
             <p className="text-white/70">Per Participant</p>
-            <p className="text-white/70">Team must contain at least 1 member to 3 member participants</p>
+            <p className="text-white/70">Team must contain at least 2 member to 4 member participants</p>
           </div>
         </div>
         {/* CTA Box with Google Form Link */}
