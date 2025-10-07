@@ -49,7 +49,7 @@ export default function Registration() {
             <h3 className="text-2xl font-bold neon-text mb-4">Registration Fee</h3>
             <p className="text-5xl font-black neon-cyan mb-2">₹250</p>
             <p className="text-white/70">Per Participant</p>
-            <p className="text-white/70">Team must contain at least 2 member to 4 member participants</p>
+            <p className="text-white/70">Team must contain at least 2 member upto 4 member participants</p>
           </div>
         </div>
         {/* CTA Box with Google Form Link */}
