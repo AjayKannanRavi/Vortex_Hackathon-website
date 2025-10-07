@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function Registration() {
-  const googleFormUrl = 'https://forms.gle/your-google-form-url-here'; // Replace with your Google Form URL
+  const googleFormUrl = 'https://forms.gle/r2ShWznUQqoR1VgT7'; // Replace with your Google Form URL
 
   const popUpVariants = {
     hidden: { scale: 0.8, opacity: 0, y: 20 },
