@@ -11,11 +11,11 @@ export default function Contact() {
             <p className="text-white/80 mb-4">Ready to dive into the vortex? Reach out for queries or collaborations.</p>
             <p className="text-lg mb-2 flex items-center">
               <span className="mr-3 text-neon-cyan">✉️</span>
-              <a href="mailto:aimlevent@kpriet.ac.in" className="hover:text-neon-cyan transition">vortex2k25@esec.ac.in</a>
+              <a href="mailto:vortex2k25esec@gmail.com" className="hover:text-neon-cyan transition">vortex2k25esec@gmail.com</a>
             </p>
             <p className="text-lg flex items-center">
               <span className="mr-3 text-neon-cyan">📞</span>
-              +91 6845158451 / +91 9876543210
+              +91 9597237743 / +91 9994294170
             </p>
           </div>
           <div className="relative">
