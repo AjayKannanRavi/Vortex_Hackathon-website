@@ -43,8 +43,8 @@ export default function Navbar() {
               >
                 {item.text}
                 {/* Ripple Glow Underline */}
-                <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-neon-purple to-neon-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110"></span>
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-neon-purple to-neon-cyan group-hover:w-full transition-all duration-500"></span>
+                <span className="absolute inset-0 rounded-lg  bg-gradient-to-r from-purple-300/20 via-purple-400/30 to-purple-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm scale-110"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1  bg-gradient-to-r from-purple-300/20 via-purple-400/30 to-purple-500/40 group-hover:w-full transition-all duration-500"></span>
               </a>
             </li>
           ))}

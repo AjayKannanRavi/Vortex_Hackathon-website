@@ -1,29 +1,38 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
+export default function Countdown() {
+  const targetDate = "2025-10-29T09:00:00"; // ✅ Fixed Target Date: October 29, 2025 - 9:00 AM
+
+  // ✅ Function to calculate remaining time
   const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
+    const difference = new Date(targetDate) - new Date();
     let timeLeft = {};
+
     if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
         seconds: Math.floor((difference / 1000) % 60),
       };
+    } else {
+      // When event time has passed
+      timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
+
     return timeLeft;
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  // ✅ Update countdown every second
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-    return () => clearTimeout(timer);
-  }, [timeLeft]);
+    return () => clearInterval(timer);
+  }, [targetDate]);
 
   const intervals = [
     { key: 'days', label: 'DAYS' },
@@ -34,18 +43,17 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
 
   const formatNumber = (num) => num.toString().padStart(2, '0');
 
-  const startDate = new Date('2025-10-29T09:00:00');
-  const formattedDate = '29.10.2025';
+  // ✅ Event Date Formatting
+  const startDate = new Date(targetDate);
+  const formattedDate = startDate.toLocaleDateString('en-GB').replace(/\//g, '.'); // e.g., 29.10.2025
   const dayOfWeek = startDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
 
+  // ✅ Animation Variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
     }
   };
 
@@ -66,64 +74,55 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
         '0 0 20px rgba(6, 182, 212, 1)',
         '0 0 5px rgba(6, 182, 212, 0.5)'
       ],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
+      transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
     }
   };
 
   const hourHandVariants = {
     animate: {
       rotate: 360,
-      transition: {
-        duration: 12 * 60 * 60,
-        repeat: Infinity,
-        ease: "linear"
-      }
+      transition: { duration: 12 * 60 * 60, repeat: Infinity, ease: "linear" }
     }
   };
 
   const minuteHandVariants = {
     animate: {
       rotate: 360,
-      transition: {
-        duration: 60 * 60,
-        repeat: Infinity,
-        ease: "linear"
-      }
+      transition: { duration: 60 * 60, repeat: Infinity, ease: "linear" }
     }
   };
 
   return (
     <section className="py-16 bg-black text-center relative overflow-hidden">
+      {/* Background Glow Animation */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-neon-cyan/5 to-neon-purple/5"
         variants={glowVariants}
         initial="initial"
         animate="animate"
       />
+      
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-4"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
+        {/* Title */}
         <motion.h2
           variants={itemVariants}
           className="text-3xl lg:text-4xl font-bold text-white mb-12"
         >
           The Event Begins
         </motion.h2>
+
         <motion.div
           variants={itemVariants}
           className="flex flex-col lg:flex-row items-center justify-center gap-16 mb-8"
         >
-          <motion.div
-            className="flex space-x-4"
-          >
-            {intervals.map(({ key, label }, index) => (
+          {/* Countdown Numbers */}
+          <motion.div className="flex space-x-4">
+            {intervals.map(({ key, label }) => (
               <motion.div
                 key={key}
                 variants={glowVariants}
@@ -140,13 +139,15 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
                 >
                   {formatNumber(timeLeft[key] || 0)}
                 </motion.span>
-                <span className="text-xs uppercase tracking-widest text-white/70 font-medium relative z-10">{label}</span>
+                <span className="text-xs uppercase tracking-widest text-white/70 font-medium relative z-10">
+                  {label}
+                </span>
               </motion.div>
             ))}
           </motion.div>
-          <motion.div
-            className="flex flex-col items-center space-y-2"
-          >
+
+          {/* Clock + Date Display */}
+          <motion.div className="flex flex-col items-center space-y-2">
             <div className="relative">
               <svg className="w-16 h-16" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(6, 182, 212, 0.8)" strokeWidth="4" />
@@ -174,6 +175,7 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
                 />
               </svg>
             </div>
+
             <motion.p
               className="text-2xl font-bold text-neon-cyan"
               initial={{ opacity: 0 }}
@@ -182,6 +184,7 @@ export default function Countdown({ targetDate = "2025-10-29T09:00:00" }) {
             >
               {formattedDate}
             </motion.p>
+
             <motion.p
               className="text-lg uppercase text-white/80 font-medium"
               initial={{ opacity: 0 }}
